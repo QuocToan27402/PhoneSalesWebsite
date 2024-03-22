@@ -1,0 +1,163 @@
+﻿@model CT_Store.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Destription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Destription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageMain)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageMain)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageSub1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageSub1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageSub2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageSub2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageSub3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageSub3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageSub4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageSub4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RAM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RAM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ManHinh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManHinh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HeDieuHanh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HeDieuHanh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CamTruoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CamTruoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CamSau)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CamSau)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Chip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Chip)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SIM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SIM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pin)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,116 @@
+﻿@using CT_Store.Models;
+@model CT_Store.Models.Product
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+
+<div class="page-product">
+    <div class="product-detail">
+        <div class="product-detail-left">
+            <div class="slider slider-img-product">
+                <div class="product-img-primary">
+                    <img src="~/assets/img/@Model.ImageSub1" alt="" style="width: 100%;">
+                </div>
+                <div class="product-img-primary">
+                    <img src="~/assets/img/@Model.ImageSub2" alt="" style="width: 100%;">
+                </div>
+                <div class="product-img-primary">
+                    <img src="~/assets/img/@Model.ImageSub3" alt="" style="width: 100%;">
+                </div>
+                <div class="product-img-primary">
+                    <img src="~/assets/img/@Model.ImageSub4" alt="" style="width: 100%;">
+                </div>
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+
+            <div class="slider array-product-img">
+                <div class="array-product-img-item">
+                    <img class="demo cursor" src="~/assets/img/@Model.ImageSub1" alt="" onclick="currentSlide(1)" style="width: 100%;">
+                </div>
+                <div class="array-product-img-item">
+                    <img class="demo cursor" src="~/assets/img/@Model.ImageSub2" alt="" onclick="currentSlide(2)" style="width: 100%;">
+                </div>
+                <div class="array-product-img-item">
+                    <img class="demo cursor" src="~/assets/img/@Model.ImageSub3" alt="" onclick="currentSlide(3)" style="width: 100%;">
+                </div>
+                <div class="array-product-img-item">
+                    <img class="demo cursor" src="~/assets/img/@Model.ImageSub4" alt="" onclick="currentSlide(4)" style="width: 100%;">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="product-detail-right">
+            <h2 class="product-detail-name">
+                @Model.ProductName
+            </h2>
+            <div class="product-detail-price">
+                <div class="product-detail-price-current">
+                    @Model.Price.ToString("N0") đ
+                </div>
+                
+            </div>
+            <div class="btn-buy" >
+                @Html.ActionLink("Mua", "AddToCart", "Cart", new
+                    {
+                        id = Model.ProductID,
+                    }, new { @class = "btn-buy-link" })
+            </div>
+        </div>
+    </div>
+
+    <!-- Config Phone -->
+    <div class="config-phone">
+        <div class="config-phone-heading">Cấu hình Điện thoại @Model.ProductName</div>
+        <ul class="list-config-phone-element">
+            <li>
+                <span class="element-title">Màn hình:</span>
+                <span class="element-value">@Model.ManHinh</span>
+            </li>
+            <li>
+                <span class="element-title">Hệ điều hành:</span>
+                <span class="element-value">@Model.HeDieuHanh</span>
+            </li>
+            <li>
+                <span class="element-title">Camera sau:</span>
+                <span class="element-value">@Model.CamSau</span>
+            </li>
+            <li>
+                <span class="element-title">Camera trước:</span>
+                <span class="element-value">@Model.CamTruoc</span>
+            </li>
+            <li>
+                <span class="element-title">Chip:</span>
+                <span class="element-value">@Model.Chip</span>
+            </li>
+            <li>
+                <span class="element-title">RAM:</span>
+                <span class="element-value">@Model.RAM</span>
+            </li>
+            <li>
+                <span class="element-title">ROM:</span>
+                <span class="element-value">@Model.ROM</span>
+            </li>
+            <li>
+                <span class="element-title">Sim:</span>
+                <span class="element-value">@Model.SIM</span>
+            </li>
+            <li>
+                <span class="element-title">Pin, Sạc:</span>
+                <span class="element-value">@Model.Pin</span>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+
+
+

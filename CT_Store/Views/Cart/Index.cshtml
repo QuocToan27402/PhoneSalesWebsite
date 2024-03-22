@@ -1,0 +1,212 @@
+﻿@model IEnumerable<CT_Store.Models.CartItem>
+@using CT_Store.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listShoppingCart = Session["Cart"] as List<CartItem>;
+    if (listShoppingCart == null)
+    {
+        listShoppingCart = new List<CartItem>();
+        Session["Cart"] = listShoppingCart;
+    }
+}
+
+@if (listShoppingCart.Count == 0)
+{
+    <div class="cart-page conform-order">
+        <h2 class="conform-heading">Giỏ hàng</h2>
+        <div class="conform-img">
+            <img src="~/assets/img/empty-cart.png" alt="">
+        </div>
+        <p class="conform-content">Không có sản phẩm nào trong giỏ hàng.</p>
+        <a href="@Url.Action("Index", "Home")" class="home-back">VỀ TRANG CHỦ</a>
+    </div>
+}
+else
+{
+    <div class="cart-page">
+        <div class="cart-header">
+            <div class="cart-header-left">
+                <i class="fa-solid fa-angle-left"></i>
+                <a href="@Url.Action("Index", "Home")" class="buy-more">Mua thêm sản phẩm khác</a>
+            </div>
+            <div class="cart-header-right">
+                <h2>Giỏ hàng của bạn</h2>
+            </div>
+        </div>
+        <ul class="list-cart">
+            @foreach (var item in Model)
+            {
+                <li class="product-item">
+                    <div class="imgsp">
+                        <a href="" class="imgsp-link">
+                            <img src="~/assets/img/@item._image_main" alt="">
+                        </a>
+                    </div>
+                    <div class="infosp">
+                        <div class="name-price">
+                            <div class="name-wrap">
+                                <a href="">@item._product_name</a>
+                            </div>
+                            <span class="price">@item._price.ToString("N0") đ</span>
+                        </div>
+                        @using (Html.BeginForm("UpdateCart", "Cart", new { id = item._product_id, txtQuantity = item._quantity }))
+                        {
+                            <div class="input-quantity-wrap">
+                                <input type="number" name="txtQuantity" class="input-quantity" id="" value="@item._quantity" min="1">
+
+                            </div>
+                            <div class="header__cart-item-remove" style="padding-bottom:10px">
+                                <a href="@Url.Action("DeleteCart","Cart", new {id = item._product_id})" style="text-decoration: none">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Xóa
+                                </a>
+                            </div>
+                            <input type="submit" value="Cập nhật" />
+                        }
+                        @*<div class="header__cart-item-remove">
+                                <a href="@Url.Action("UpdateCart","Cart",  new { id = item._product_id, txtQuantity = item._quantity})" style="text-decoration: none">
+                                    <i class="fa-solid fa-repeat"></i>
+                                    Update
+                                </a>
+                            </div>*@
+                    </div>
+                </li>
+            }
+
+        </ul>
+
+        <div class="info-customer">
+            <h3>Thông tin khách hàng</h3>
+            <div class="info-name-phone">
+                <div class="info-wrap">
+                    <input type="text" name="" id="Name" class="" placeholder="Họ và tên">
+                </div>
+                <div class="info-wrap">
+                    <input type="tel" name="" id="PhoneNumber" placeholder="Số điện thoại">
+                </div>
+            </div>
+            <div class="info-address">
+                <div class="form-group">
+                    <select class="form-control" id="province">
+                        <option value="">Chọn tỉnh / thành phố</option>
+                        <option value="Hà Nội">Hà Nội</option>
+                        <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                        <option value="Đà Nẵng">Đà Nẵng</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="district">
+                        <option value="">Chọn quận / huyện</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="ward">
+                        <option value="">Chọn phường / xã</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="street" placeholder="Nhập địa chỉ chi tiết">
+                </div>
+
+            </div>
+            <div class="totalsp">
+                <span class="total-product-quantity">Tổng cộng (@ViewBag.Tongsoluong sản phẩm):</span>
+                <span class="total-product-money">@String.Format("{0:0,0}", ViewBag.Tongtien) đ</span>
+            </div>
+        </div>
+        <div class="btn-order">
+            <button id="DATHANG" type="button">Đặt hàng</button>
+        </div>
+    </div>
+
+}
+
+
+@section scripts{
+    <script>
+        const host = "https://provinces.open-api.vn/api/";
+        var callAPI = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data, "province");
+                });
+        }
+        callAPI('https://provinces.open-api.vn/api/?depth=1');
+        var callApiDistrict = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data.districts, "district");
+                });
+        }
+        var callApiWard = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data.wards, "ward");
+                });
+        }
+
+        var renderData = (array, select) => {
+            let row = ' <option disable value="">chọn</option>';
+            array.forEach(element => {
+                row += `<option value="${element.code}">${element.name}</option>`
+            });
+            document.querySelector("#" + select).innerHTML = row
+        }
+
+        $("#province").change(() => {
+            callApiDistrict(host + "p/" + $("#province").val() + "?depth=2");
+            printResult();
+        });
+        $("#district").change(() => {
+            callApiWard(host + "d/" + $("#district").val() + "?depth=2");
+            printResult();
+        });
+        $("#ward").change(() => {
+            printResult();
+        })
+
+        var printResult = () => {
+            if ($("#district").val() != "" && $("#province").val() != "" &&
+                $("#ward").val() != "") {
+                let result = $("#province option:selected").text() +
+                    " | " + $("#district option:selected").text() + " | " +
+                    $("#ward option:selected").text();
+                $("#result").text(result)
+            }
+
+        }
+        $("#DATHANG").click(function () {
+
+            if ($("#district").val() != "" && $("#province").val() != "" && $("#ward").val() != "") {
+                var address = $("#street").val() + ", " + $("#ward option:selected").text() +
+                    ", " + $("#district option:selected").text() + ", " +
+                    $("#province option:selected").text();
+            }
+            var name = $("#Name").val();
+            var phone = $("#PhoneNumber").val();
+            var data = {
+                Name: name,
+                Phonenumber: phone,
+                Address: address
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/Cart/Order',
+                data: data,
+                success: function (result) {
+                    // Xử lý kết quả trả về từ controller
+                    window.location = result.url;
+                    alert(result.message);
+                    console.log(result);
+                },
+                error: function (error) {
+                    // Xử lý lỗi nếu có
+                    window.alert(error.error)
+                    console.log(error);
+                }
+            });
+        });
+    </script>
+    @*<script src="~/assets/js/address.js"></script>*@
+} 

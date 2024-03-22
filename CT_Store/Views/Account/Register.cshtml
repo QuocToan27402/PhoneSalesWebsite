@@ -1,0 +1,148 @@
+﻿@model CT_Store.Models.RegisterViewModel 
+@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT Store</title>
+    <link rel="shortcut icon" href="~/assets/img/fav-icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="~/assets/css/base.css">
+    <link rel="stylesheet" href="~/assets/css/main.css">
+    <link rel="stylesheet" href="~/assets/css/grid.css">
+    <link rel="stylesheet" href="~/assets/css/responsive.css">
+    <link rel="stylesheet" href="~/assets/fonts/fontawesome-free-6.1.1-web/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <header class="header-login">
+            <div class="grid wide">
+                <!-- Header search -->
+                <div class="header-login">
+                    <div class="header__logo">
+                        <a href="/" class="header__logo-link">
+                            <img src="~/assets/img/logo-no-background.png" alt="" class="header__logo-img">
+                        </a>
+                    </div>
+                    <div class="header-login-title">
+                        Đăng nhập
+                    </div>
+                </div>
+            </div>
+            </ul>
+        </header>
+
+        <div class="container-login">
+            <div class="grid wide model-login-wrap">
+                <div class="model-login">
+                    <div class="auth-form">
+                        <div class="auth-form__container">
+
+                            <div class="auth-form__header">
+                                <h3 class="auth-form__heading">Đăng ký</h3>
+                                @*<span class="auth-form__switch-btn">Đăng nhập</span>*@
+                                @Html.ActionLink("Đăng nhập", "Login", null, new { @class = "auth-form__switch-btn" })
+                            </div>
+                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                                <div class="auth-form__group">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "auth-form__input" })
+                                    </div>
+                                </div>
+                                <div class="auth-form__group">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "auth-form__input" })
+                                    </div>
+                                </div>
+                                <div class="auth-form__group">
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "auth-form__input" })
+                                    </div>
+                                </div>
+                                <div class="auth-form__aside">
+                                    <p class="auth-form__policy-text">
+                                        Bằng việc đăng ký, bạn đã đồng ý với CT-Store về
+                                        <a href="" class="auth-form__text-link">Điều khoản dịch vụ</a> &
+                                        <a href="" class="auth-form__text-link">Chính sách bảo mật</a>
+                                    </p>
+                                </div>
+                                <div class="auth-form__controls">
+                                    <button value="Register" type="submit" class="btn btn--primary">ĐĂNG KÝ</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="grid wide footer__content">
+                <div class="footer__policy">
+                    <ul class="list-policy">
+                        <li class="policy-item">
+                            <div class="policy-icon">
+                                <i class="fa-regular fa-circle-check"></i>
+                            </div>
+                            <div class="policy-text">
+                                Mẫu mã đa dạng, <br>chính hãng
+                            </div>
+                        </li>
+                        <li class="policy-item">
+                            <div class="policy-icon">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <div class="policy-text">
+                                Giao hàng toàn quốc
+                            </div>
+                        </li>
+                        <li class="policy-item">
+                            <div class="policy-icon">
+                                <i class="fa-solid fa-shield"></i>
+                            </div>
+                            <div class="policy-text">
+                                Bảo hành có cam kết <br>tới 12 tháng
+                            </div>
+                        </li>
+                        <li class="policy-item">
+                            <div class="policy-icon">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </div>
+                            <div class="policy-text">
+                                Có thể đổi trả
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <div class="grid wide">
+                    <p class="footer__text">
+                        © 2015 - Bản quyền thuộc về Công ty TNHH Shopee
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+</body>
+</html>

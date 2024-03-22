@@ -1,0 +1,10 @@
+﻿@model IEnumerable<CT_Store.Models.Category>
+
+
+@foreach (var item in Model)
+{
+    <li class="mobile-category__item">
+        @Html.ActionLink(item.CategoryName, "GetProductByCategory/" + item.CategoryID, "Home", new { @class = "mobile-category__link" })
+    </li>
+}
+

@@ -1,0 +1,37 @@
+﻿
+@*@{
+    ViewBag.Title = "HistoryOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="cart-page">
+    <div class="cart-header">
+        <div class="cart-header-left">
+            <i class="fa-solid fa-angle-left"></i>
+            <a href="@Url.Action("Index", "Home")" class="buy-more">Mua thêm sản phẩm khác</a>
+        </div>
+        <div class="cart-header-right">
+            <h2>Lịch sử mua hàng</h2>
+        </div>
+    </div>
+    <ul class="list-cart">
+        @foreach (var item in Model.OrderDeatil)
+        {
+            <li class="product-item">
+                <div class="imgsp">
+                    <a href="" class="imgsp-link">
+                        <img src="~/assets/img/@item.Product.ImageMain" alt="">
+                    </a>
+                </div>
+                <div class="infosp">
+                    <div class="name-price">
+                        <div class="name-wrap">
+                            <a href="">@item.Product.ProductName</a>
+                        </div>
+                        <span class="price">@item.Order.TotalPrice đ</span>
+                    </div>
+                </div>
+            </li>
+        }
+
+    </ul>
+</div>*@

@@ -1,0 +1,136 @@
+﻿@model IEnumerable<CT_Store.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageMain)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageSub1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageSub2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageSub3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageSub4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ROM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RAM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManHinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HeDieuHanh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CamTruoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CamSau)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Chip)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SIM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Destription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageMain)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageSub1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageSub2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageSub3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageSub4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ROM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RAM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManHinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HeDieuHanh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CamTruoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CamSau)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Chip)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SIM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pin)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ProductID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ProductID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
+        </td>
+    </tr>
+}
+
+</table>

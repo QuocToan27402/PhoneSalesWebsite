@@ -1,0 +1,147 @@
+﻿@*@model IEnumerable<CT_Store.Models.Product>*@
+
+@model PagedList.IPagedList<CT_Store.Models.Product>
+@using PagedList;
+@using PagedList.Mvc;
+
+
+
+
+
+<!-- Slide Show -->
+<div class="silder-show">
+    <div class="slides">
+        <!-- radio button start -->
+        <input type="radio" name="radio-btn" id="radio1">
+        <input type="radio" name="radio-btn" id="radio2">
+        <input type="radio" name="radio-btn" id="radio3">
+        <input type="radio" name="radio-btn" id="radio4">
+        <input type="radio" name="radio-btn" id="radio5">
+        <input type="radio" name="radio-btn" id="radio6">
+        <!-- radio button end -->
+        <!-- silde image start -->
+        <div class="slide first">
+            <img src="~/assets/img/slide-1.png" alt="">
+        </div>
+        <div class="slide">
+            <img src="~/assets/img/slide-2.png" alt="">
+        </div>
+        <div class="slide">
+            <img src="~/assets/img/slide-3.png" alt="">
+        </div>
+        <div class="slide">
+            <img src="~/assets/img/slide-4.png" alt="">
+        </div>
+        <div class="slide">
+            <img src="~/assets/img/slide-5.png" alt="">
+        </div>
+        <div class="slide">
+            <img src="~/assets/img/slide-6.png" alt="">
+        </div>
+        <!-- silde image end -->
+        <!-- navigation auto -->
+        <div class="navigation-auto">
+            <div class="auto-btn1"></div>
+            <div class="auto-btn2"></div>
+            <div class="auto-btn3"></div>
+            <div class="auto-btn4"></div>
+            <div class="auto-btn5"></div>
+            <div class="auto-btn6"></div>
+
+        </div>
+    </div>
+    <!-- manual navigation -->
+    <div class="navigation-manual">
+        <label for="radio1" class="manual-btn"></label>
+        <label for="radio2" class="manual-btn"></label>
+        <label for="radio3" class="manual-btn"></label>
+        <label for="radio4" class="manual-btn"></label>
+        <label for="radio5" class="manual-btn"></label>
+        <label for="radio6" class="manual-btn"></label>
+    </div>
+</div>
+<div class="row sm-gutter app__content">
+
+    <!-- CATEGORY-->
+    <div class="col l-2 m-0 c-0">
+        <nav class="category hide-on-mobile-tablet">
+            <h3 class="category__heading">
+                <i class="category__heading-icon fa-solid fa-list"></i>
+                Danh mục
+            </h3>
+
+            <ul class="category-list">
+                <li class="category-item">
+                    <a href="#" class="category-item-link">Tất cả</a>
+                </li>
+                <!-- RENDER CATEGORY -->
+                @Html.Action("GetCategory", "Home")
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col l-10 m-12 c-12">
+        <div class="home-filter hide-on-mobile-tablet">
+            <span class="home-filter__label">Sắp xếp theo</span>
+
+            <div class="select-input">
+                <span class="select-input__label">Giá</span>
+                <i class="select-input-icon fa-solid fa-angle-down"></i>
+
+                <ul class="select-input__list">
+                    <li class="select-input__item">
+                        <a href="@Url.Action("SortPriceLowToHigh", "Home")" class="select-input__link">
+                            Giá: Thấp đến cao
+                        </a>
+                    </li>
+                    <li class="select-input__item">
+                        <a href="@Url.Action("SortPriceHighToLow", "Home")" class="select-input__link">
+                            Giá: Cao đến thấp
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- CATEGORY ON MOBILE AND TABLET-->
+        <nav class="mobile-category">
+            <ul class="mobile-category__list">
+                @Html.Action("GetCategoryOnMobile","Home")
+            </ul>
+        </nav>
+
+        <div class="home-product">
+            <div class="row sm-gutter">
+                @foreach (var item in Model)
+                {
+                    <div class="col l-3 m-4 c-6">
+
+                        <a href="@Url.Action("Detail", "Home", new {id = item.ProductID})" class="home-product-item">
+                            <div class="home-product-item__img">
+                                <img src="~/assets/img/@item.ImageMain" alt="">
+
+                            </div>
+                            <h4 class="home-product-item__name">@item.ProductName</h4>
+                            <div class="home-product-item__price">
+                                <span class="home-product-item__price-current">@item.Price.ToString("N0") đ</span>
+                            </div>
+
+
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!--PHÂN TRANG-->
+        
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new {page}), new PagedListRenderOptions
+   {
+       LiElementClasses = new string[] { "pagination-item" },
+       UlElementClasses = new string[] { "pagination", "home-product__pagination" },
+       
+
+   })
+    </div>
+</div>
+

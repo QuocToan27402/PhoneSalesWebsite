@@ -1,0 +1,9 @@
+﻿@model IEnumerable<CT_Store.Models.Category>
+
+
+@foreach (var item in Model)
+{
+    <li class="category-item">
+        @Html.ActionLink(item.CategoryName, "GetProductByCategory/" + item.CategoryID, "Home", new {@class = "category-item-link" })
+    </li>
+}

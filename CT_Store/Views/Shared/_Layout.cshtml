@@ -1,0 +1,238 @@
+﻿@using Microsoft.AspNet.Identity
+@using CT_Store.Models
+@{ 
+    var listShoppingCart = Session["Cart"] as List<CartItem>;
+    if (listShoppingCart == null)
+    {
+        listShoppingCart = new List<CartItem>();
+        Session["Cart"] = listShoppingCart;
+    }
+
+}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CT Store</title>
+        <link rel="shortcut icon" href="~/assets/img/fav-icon.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link rel="stylesheet" href="~/assets/css/base.css">
+        <link rel="stylesheet" href="~/assets/css/main.css">
+        <link rel="stylesheet" href="~/assets/css/grid.css">
+        <link rel="stylesheet" href="~/assets/css/responsive.css">
+        <link rel="stylesheet" href="~/assets/fonts/fontawesome-free-6.1.1-web/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <div class="main">
+            <header class="header">
+                <div class="grid wide">
+                    <nav class="header__navbar ">
+                        <ul class="header__navbar-list">
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="header__navbar-item header__navbar-user">
+                                    <img src="https://lh3.googleusercontent.com/ogw/AOh-ky0gHlWmWHf8S8HmioIN0_pIKLd9hJICwM2dn4PZ=s32-c-mo" alt="" class="header__navbar-user-img">
+
+                                    <span class="header__navbar-user-name">@User.Identity.GetUserName()</span>
+
+                                    <ul class="header__navbar-user-menu">
+                                        <li class="header__navbar-user-item">
+                                            <a href="@Url.Action("Index","Products", new {Area = "Admin"})">Admin</a>
+                                        </li>
+
+                                        
+                                        <li class="header__navbar-user-item">
+                                            <a href="@Url.Action("HistoryOrder" ,"Home")">Đơn mua</a>
+                                        </li>
+                                        <li class="header__navbar-user-item header__navbar-user-item--separate">
+                                            <a href="@Url.Action("LogOff", "Account")">Đăng xuất</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="header__navbar-item header__navbar-item--strong">
+                                    <a href="@Url.Action("Register", "Account")" class="header-navbar-item-login" style="text-decoration: none; color: var(--white-color); font-size: 1.4rem">Đăng kí</a>
+                                </li>
+                                <li class="header__navbar-item header__navbar-item--strong">
+                                    <a href="@Url.Action("Login", "Account")" class="header-navbar-item-logout" style="text-decoration: none; color: var(--white-color); font-size: 1.4rem">Đăng nhập</a>
+                                </li>
+
+                            }
+
+
+                        </ul>
+                    </nav>
+                    <!-- Header search -->
+                    <div class="header-with-search">
+                        <label for="mobile-search-checkbox" class="header__mobile-search">
+                            <i class="header__mobile-search-icon fa-solid fa-magnifying-glass"></i>
+                        </label>
+                        <div class="header__logo">
+                            <a href="/" class="header__logo-link">
+                                <img src="~/assets/img/logo-no-background.png" alt="" class="header__logo-img">
+                            </a>
+                        </div>
+
+                        <input type="checkbox" hidden id="mobile-search-checkbox" class="header__search-checkbox">
+                        @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "header__search" }))
+                        {
+                            <div class="header__search-input-wrap">
+                                <input type="text" name="searchString" class="header__search-input" placeholder="Nhập để tìm kiếm sản phẩm">
+                            </div>
+                            <button value="search" class="header__search-btn">
+                                <i class="header__search-btn-icon fa-solid fa-magnifying-glass"></i>
+                            </button>
+
+                        }
+
+
+                        <div class="header__cart">
+                            <div class="header__cart-warp">
+                                <i class="fa-solid fa-cart-shopping header__cart-icon"></i>
+                                @{Html.RenderAction("CartSummary", "Cart"); }
+                                <!-- No cart: header__cart-list-no-cart -->
+                                <div class="header__cart-list">
+                                    @if (listShoppingCart.Count() == 0)
+                                    {
+                                        <div class="header__cart-list header__cart-list-no-cart">
+                                            <img src="~/assets/img/no_cart.png" alt="" class="header__cart-no-cart-img">
+                                            <span class="header__cart-list-no-cart-msg">
+                                                Chưa có sản phẩm
+                                            </span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="header__cart-list">
+                                            <h4 class="header__cart-heading">Sản phẩm đã thêm</h4>
+                                            <ul class="header__cart-list-item">
+
+                                                @foreach (var item in listShoppingCart)
+                                                {
+                                                    <li class="header__cart-item">
+                                                        <img src="~/assets/img/@item._image_main" alt="" class="header__cart-img">
+
+                                                        <div class="header__cart-item-info">
+                                                            <div class="header__cart-item-head">
+                                                                <h5 class="header__cart-item-name">@item._product_name</h5>
+                                                                <div class="header__cart-item-price-wrap">
+                                                                    <span class="header__cart-item-price">@item._price.ToString("N0") đ</span>
+                                                                    <span class="header__cart-item-multiply">x</span>
+                                                                    <span class="header__cart-item-qnt">@item._quantity</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="header__cart-item-body">
+                                                                <span class="header__cart-item-description">
+                                                                    Màu sắc: đen
+                                                                </span>
+                                                                <span class="header__cart-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                }
+                                            </ul>
+                                            <a href="@Url.Action("Index","Cart")" class="header__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
+
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Sort Bar -->
+                    @*<ul class="header__sort-bar">
+                        <li class="header__sort-item">
+                            <a href="" class="header__sort-link">Liên quan</a>
+                        </li>
+                        <li class="header__sort-item header__sort-item--active">
+                            <a href="" class="header__sort-link">Mới nhất</a>
+                        </li>
+                        <li class="header__sort-item">
+                            <a href="" class="header__sort-link">bán chạy</a>
+                        </li>
+                        <li class="header__sort-item">
+                            <a href="" class="header__sort-link">Giá</a>
+                        </li>
+                    </ul>*@
+                </div>
+            </header>
+
+            <div class="container">
+                <div class="grid wide">
+                    @RenderBody()
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="grid wide footer__content">
+                <div class="footer__policy">
+                    <ul class="list-policy">
+                        <li class="policy-item">
+                            <div class="policy-icon">
+                                <i class="fa-regular fa-circle-check"></i>
+                            </div>
+                            <div class="policy-text">
+                                Mẫu mã đa dạng, <br>chính hãng
+                            </div>
+                        </li>
+                        <li class="policy-item">
+                            <div class="policy-icon">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <div class="policy-text">
+                                Giao hàng toàn quốc
+                            </div>
+                        </li>
+                        <li class="policy-item">
+                            <div class="policy-icon">
+                                <i class="fa-solid fa-shield"></i>
+                            </div>
+                            <div class="policy-text">
+                                Bảo hành có cam kết <br>tới 12 tháng
+                            </div>
+                        </li>
+                        <li class="policy-item">
+                            <div class="policy-icon">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </div>
+                            <div class="policy-text">
+                                Có thể đổi trả
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <div class="grid wide">
+                    <p class="footer__text">
+                        © 2023 - Bản quyền thuộc về CT Store
+                    </p>
+                </div>
+            </div>
+        </footer>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="~/assets/js/index.js"></script>
+        @Scripts.Render("~/bundles/jquery")
+        @*@Scripts.Render("~/bundles/app")*@
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
